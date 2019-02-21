@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
+import { WordpressRestapiService, Post } from '../services/wordpress-restapi.service';
 
 @Component({
   selector: 'app-home',
@@ -7,4 +10,29 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
+  categoryId: number;
+  private posts : Post[] = [];
+
+  constructor(
+    public loadingController: LoadingController, 
+    private router: Router,
+    private wordpressService: WordpressRestapiService) { }
+
+  async ngOnInit() {
+    const loading = await this.loadingController.create();
+    await loading.present();
+    
+    this.loadPosts().subscribe((posts: Post[]) => {
+      this.posts = posts;
+      loading.dismiss();
+    });
+  }
+
+  loadPosts() {
+    return this.wordpressService.getRecentPosts(this.categoryId);
+  }
+
+  openPost(postId) {
+    this.router.navigateByUrl('/post/' + postId);
+  }
 }

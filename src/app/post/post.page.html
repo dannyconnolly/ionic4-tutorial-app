@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Post</ion-title>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <h1 *ngIf="post.title" [innerHTML]="post.title.rendered"></h1>
+  <p [innerHTML]="post.date | date:longDate"></p>
+  <div *ngIf="post.content" [innerHTML]="post.content.rendered"></div>
+</ion-content>
