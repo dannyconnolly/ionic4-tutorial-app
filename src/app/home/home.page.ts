@@ -23,6 +23,7 @@ export class HomePage {
     await loading.present();
     
     this.loadPosts().subscribe((posts: Post[]) => {
+      console.log(posts);
       this.posts = posts;
       loading.dismiss();
     });

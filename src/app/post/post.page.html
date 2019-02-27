@@ -10,7 +10,34 @@
 </ion-header>
 
 <ion-content padding>
-  <h1 *ngIf="post.title" [innerHTML]="post.title.rendered"></h1>
-  <p [innerHTML]="post.date | date:longDate"></p>
+
+  <figure *ngIf="media.hasThumbnail()">
+    <ion-img [src]="media.getThumbnail('full')"></ion-img>
+  </figure>
+
+  <h1 *ngIf="post.title" [innerHTML]="post.getTitle()"></h1>
+  <p *ngIf="post.date" [innerHTML]="post.getDate()"></p>
+
+  <p *ngIf="categories.length">
+    Posted in: <span *ngFor="let category of categories; let isLast=last">{{category.name}}{{isLast ? '' : ', '}}</span>
+  </p>
+
+  <p *ngIf="tags.length">
+    Tagged: <span *ngFor="let tag of tags; let isLast=last">#{{tag.name}}{{isLast ? '' : ', '}}</span>
+  </p>
+
   <div *ngIf="post.content" [innerHTML]="post.content.rendered"></div>
+
+  <div *ngIf="comments.length" class="posts-comments-wrapper">
+      <p class="bold-title">Comments:</p>
+
+      <ion-item *ngFor="let comment of comments">
+        <ion-avatar item-start>
+          <img src="{{comment.author_avatar_urls[24]}}">
+        </ion-avatar>
+        <div>{{comment.author_name}}</div>
+        <p [innerHTML]="comment.content.rendered"></p>
+      </ion-item>
+
+    </div><!-- /.post-comments-wrapper-->
 </ion-content>

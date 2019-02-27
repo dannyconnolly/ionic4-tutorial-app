@@ -12,8 +12,13 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let post of posts" (click)="openPost(post.id)">
-      <ion-label [innerHTML]="post.title.rendered" text-wrap></ion-label>
-      <span [innerHTML]="post.date | date:longDate" class="post-date"></span>
+      
+      <ion-thumbnail *ngIf="post.media.hasThumbnail()" slot="end">
+          <ion-img [src]="post.media.media_details.sizes.thumbnail.source_url"></ion-img>
+      </ion-thumbnail>
+
+      <ion-label [innerHTML]="post.getTitle()" text-wrap></ion-label>
+      <div [innerHTML]="post.getDate()" class="post-date"></div>
     </ion-item>
   </ion-list>
 </ion-content>
